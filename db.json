@@ -1,0 +1,40 @@
+{
+  "genres": [
+    {
+      "id": "scifi",
+      "name": "Science Fiction"
+    },
+    {
+      "id": "fantasy",
+      "name": "Fantasy"
+    }
+  ],
+  "authors": [
+    {
+      "id": "1",
+      "name": "Jules Verne"
+    },
+    {
+      "id": "2",
+      "name": "J.R.R. Tolkien"
+    }
+  ],
+  "books": [
+    {
+      "id": "1001",
+      "title": "Twenty Thousand Leagues Under the Sea",
+      "authorId": "1",
+      "genre": "scifi",
+      "rating": 5,
+      "dateAdded": "2025-07-27"
+    },
+    {
+      "id": "1002",
+      "title": "The Lord of the Rings",
+      "authorId": "2",
+      "genre": "fantasy",
+      "rating": 5,
+      "dateAdded": "2025-07-28"
+    }
+  ]
+}
