@@ -79,7 +79,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       data-testid={testId}
-      type={"button"}
+      type="button"
       className={baseClasses.trim()}
       onClick={handleClick}
       disabled={isDisabled}
