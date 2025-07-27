@@ -40,8 +40,8 @@ describe("InputLov", () => {
 
   test("loads and displays options", async () => {
     const options = [
-      { label: "Option 1", value: 1 },
-      { label: "Option 2", value: 2 },
+      { label: "Option 1", value: "1" },
+      { label: "Option 2", value: "2" },
     ];
     mockLoadOptions.mockResolvedValue(options);
     render(<InputLov {...defaultProps} />);
@@ -61,7 +61,7 @@ describe("InputLov", () => {
   });
 
   test("selects option and shows selected state", async () => {
-    const options = [{ label: "Option 1", value: 1 }];
+    const options = [{ label: "Option 1", value: "1" }];
     mockLoadOptions.mockResolvedValue(options);
     render(<InputLov {...defaultProps} />);
     const input = screen.getByTestId("input-lov-input");
@@ -70,7 +70,7 @@ describe("InputLov", () => {
     await waitFor(() => {
       const option = screen.getByTestId("input-lov-option-0");
       fireEvent.click(option);
-      expect(mockOnChange).toHaveBeenCalledWith({ label: "Option 1", value: 1 });
+      expect(mockOnChange).toHaveBeenCalledWith({ label: "Option 1", value: "1" });
     });
   });
 
@@ -114,7 +114,7 @@ describe("InputLov", () => {
   });
 
   test("handles keyboard navigation", async () => {
-    const options = [{ label: "Option 1", value: 1 }];
+    const options = [{ label: "Option 1", value: "1" }];
     mockLoadOptions.mockResolvedValue(options);
     render(<InputLov {...defaultProps} />);
     const input = screen.getByTestId("input-lov-input");
@@ -123,7 +123,7 @@ describe("InputLov", () => {
     await waitFor(() => {
       fireEvent.keyDown(input, { key: "ArrowDown" });
       fireEvent.keyDown(input, { key: "Enter" });
-      expect(mockOnChange).toHaveBeenCalledWith({ label: "Option 1", value: 1 });
+      expect(mockOnChange).toHaveBeenCalledWith({ label: "Option 1", value: "1" });
     });
   });
 
