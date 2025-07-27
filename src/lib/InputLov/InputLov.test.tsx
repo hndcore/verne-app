@@ -75,7 +75,7 @@ describe("InputLov", () => {
   });
 
   test("shows and uses clear button", () => {
-    const selectedOption = { label: "Selected", value: 1 };
+    const selectedOption = { label: "Selected", value: "1" };
     render(<InputLov {...defaultProps} value={selectedOption} isClearable />);
     const input = screen.getByTestId("input-lov-input");
     const clearButton = screen.getByTestId("input-lov-clear");
