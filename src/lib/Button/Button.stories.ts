@@ -62,6 +62,11 @@ const meta = {
       description: "Button label or content",
       table: { type: { summary: "ReactNode" } },
     },
+    testId: {
+      control: "text",
+      description: "Test ID for the component",
+      table: { type: { summary: "string" } },
+    },
   },
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;

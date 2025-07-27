@@ -2,7 +2,7 @@ export type InputTextSize = "sm" | "md" | "lg";
 
 export type InputTextType = "text" | "email" | "password" | "number" | "tel" | "url";
 
-export interface InputTextProps {
+export type InputTextProps = {
   value?: string;
   placeholder?: string;
   size?: InputTextSize;
@@ -15,7 +15,7 @@ export interface InputTextProps {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   testId?: string;
-}
+};
 
 const InputText: React.FC<InputTextProps> = ({
   value,
