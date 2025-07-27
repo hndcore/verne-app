@@ -61,6 +61,11 @@ const meta = {
       description: "Additional CSS classes",
       table: { type: { summary: "string" } },
     },
+    testId: {
+      control: "text",
+      description: "Test ID for the input element",
+      table: { type: { summary: "string" }, defaultValue: { summary: "input-lov-input" } },
+    },
   },
   args: {
     placeholder: "Search...",
