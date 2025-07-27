@@ -3,8 +3,10 @@ import { ChevronDown, Plus, Loader2, Check } from "lucide-react";
 
 export interface Option {
   label: string;
-  value: any;
+  value: string;
 }
+
+const FOCUS_DELAY_MS = 10;
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -47,7 +49,7 @@ const InputLov: React.FC<InputLovProps> = ({
   const sizes = {
     sm: "h-9 px-3 text-sm",
     md: "h-11 px-4 text-sm",
-    lg: "h-13 px-4 text-base",
+    lg: "h-14 px-4 text-base",
   };
 
   useEffect(() => {
@@ -135,7 +137,7 @@ const InputLov: React.FC<InputLovProps> = ({
   const handleTriggerClick = () => {
     if (disabled) return;
     setIsOpen(!isOpen);
-    setTimeout(() => inputRef.current?.focus(), 10);
+    setTimeout(() => inputRef.current?.focus(), FOCUS_DELAY_MS);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
