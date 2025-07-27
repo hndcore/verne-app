@@ -33,14 +33,10 @@ const Badge: React.FC<BadgeProps> = ({
     ghost: "bg-amber-100 text-amber-800",
     danger: "bg-red-800 text-red-50",
     success: "bg-emerald-800 text-emerald-50",
-    warning: "bg-yellow-600 text-yellow-50",
-    info: "bg-blue-700 text-blue-50",
   };
 
   const sizes = {
-    xs: "px-2 py-0.5 text-xs",
     sm: "px-2.5 py-1 text-xs",
-    md: "px-3 py-1 text-sm",
     lg: "px-3.5 py-1.5 text-sm",
   };
 
