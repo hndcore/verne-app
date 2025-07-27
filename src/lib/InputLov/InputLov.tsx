@@ -5,8 +5,10 @@ export interface Option {
   label: string;
   value: string;
 }
-
+// A small delay (10ms) is used to ensure proper focus management during UI transitions.
 const FOCUS_DELAY_MS = 10;
+// A debounce delay for input changes to avoid excessive API calls.
+const DEBOUNCE_DELAY_MS = 300;
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -84,7 +86,7 @@ const InputLov: React.FC<InputLovProps> = ({
           setOptions([]);
           setLoading(false);
         });
-    }, 300);
+    }, DEBOUNCE_DELAY_MS);
 
     return () => {
       clearTimeout(timeoutId);
