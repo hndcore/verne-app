@@ -6,14 +6,14 @@ export type BadgeSize = "sm" | "lg";
 
 export type IconPosition = "left" | "right";
 
-export interface BadgeBaseProps {
+export type BadgeBaseProps = {
   variant?: BadgeVariant;
   size?: BadgeSize;
   className?: string;
   icon?: ReactNode;
   iconPosition?: IconPosition;
   testId?: string;
-}
+};
 
 export type BadgeProps = PropsWithChildren<BadgeBaseProps>;
 
