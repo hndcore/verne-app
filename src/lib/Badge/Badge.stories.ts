@@ -46,6 +46,11 @@ const meta = {
         type: { summary: "string" },
       },
     },
+    testId: {
+      control: "text",
+      description: "Test ID for the component",
+      table: { type: { summary: "string" } },
+    },
   },
   args: {},
 } satisfies Meta<typeof Badge>;
