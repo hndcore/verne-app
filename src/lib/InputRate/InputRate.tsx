@@ -2,6 +2,7 @@ import React from "react";
 import { Star } from "lucide-react";
 
 export type InputRateSize = "sm" | "md" | "lg";
+const MAX_RATING = 5;
 
 export type InputRateProps = {
   value?: number;
@@ -24,7 +25,7 @@ const InputRate: React.FC<InputRateProps> = ({
   testId = "rating",
   label = "Rating",
 }) => {
-  const normalizedValue = Math.max(0, Math.min(5, Math.round(value)));
+  const normalizedValue = Math.max(0, Math.min(MAX_RATING, Math.round(value)));
 
   const sizes = {
     sm: "w-4 h-4",
@@ -108,9 +109,7 @@ const InputRate: React.FC<InputRateProps> = ({
               }`}
             />
 
-            <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-amber-700 font-medium">
-              {starValue}
-            </span>
+            <span className="text-xs text-amber-700 font-medium mt-1">{starValue}</span>
           </label>
         ))}
       </div>
