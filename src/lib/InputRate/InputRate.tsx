@@ -109,7 +109,9 @@ const InputRate: React.FC<InputRateProps> = ({
               }`}
             />
 
-            <span className="text-xs text-amber-700 font-medium mt-1">{starValue}</span>
+            <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-amber-700 font-medium">
+              {starValue}
+            </span>
           </label>
         ))}
       </div>
