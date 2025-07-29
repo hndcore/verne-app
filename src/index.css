@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  @apply bg-emerald-800 text-white;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--error {
+  @apply bg-red-800 text-white;
+}
