@@ -1,4 +1,4 @@
-import type { BookExtended } from "@/types/book";
+import type { BookExtended } from "@/features/books/types/book";
 import { Loader2 } from "lucide-react";
 import React from "react";
 import { DataTableHeader } from "./DataTableHeader";
@@ -13,6 +13,11 @@ type DataTableProps = {
   testId?: string;
   headers: string[];
   colWidths: string[];
+  activeIdEditing?: string | null;
+  onEdit: (id: string) => void;
+  onSave: (id: string) => void;
+  onCancel: (id: string) => void;
+  onDelete: (id: string) => void;
 };
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -23,8 +28,27 @@ const DataTable: React.FC<DataTableProps> = ({
   testId = "data-table",
   headers,
   colWidths,
+  activeIdEditing,
+  onEdit,
+  onSave,
+  onCancel,
+  onDelete,
 }) => {
-  const [activeIdEditing, setActiveIdEditing] = React.useState<string | null>(null);
+  const handleEdit = (id: string) => {
+    onEdit(id);
+  };
+
+  const handleSave = (id: string) => {
+    onSave(id);
+  };
+
+  const handleCancel = (id: string) => {
+    onCancel(id);
+  };
+
+  const handleDelete = (id: string) => {
+    onDelete(id);
+  };
 
   if (isError) {
     return (
@@ -70,11 +94,11 @@ const DataTable: React.FC<DataTableProps> = ({
                   key={book.id}
                   item={book}
                   columns={columns}
-                  activeIdEditing={activeIdEditing}
-                  onEdit={() => setActiveIdEditing(book.id)}
-                  onSave={() => setActiveIdEditing(null)}
-                  onCancel={() => setActiveIdEditing(null)}
-                  onDelete={() => console.log("Delete book", book.id)}
+                  activeIdEditing={activeIdEditing || null}
+                  onEdit={() => handleEdit(book.id)}
+                  onSave={() => handleSave(book.id)}
+                  onCancel={() => handleCancel(book.id)}
+                  onDelete={() => handleDelete(book.id)}
                 />
               ))
             )}

@@ -1,10 +1,10 @@
-type DataTableColumnConfig = {
+import type { ReactNode } from "react";
+
+export type DataTableColumnConfig = {
   key: string;
   header: string;
   width: string;
   className?: string;
-  renderDisplay: (value: any) => React.ReactNode;
-  renderInput?: (value: any) => React.ReactNode;
+  renderDisplay: (value: any, item?: any) => ReactNode;
+  renderInput?: (value: any, error?: string, item?: any) => ReactNode;
 };
-
-export type { DataTableColumnConfig };

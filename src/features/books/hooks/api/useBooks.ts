@@ -1,4 +1,4 @@
-import type { BookExtended } from "@/types/book";
+import type { BookExtended } from "@/features/books/types/book";
 import { QUERY_KEYS } from "@/utils/react-query/key-factory";
 import { useQuery } from "@tanstack/react-query";
 

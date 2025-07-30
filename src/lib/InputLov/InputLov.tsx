@@ -59,15 +59,16 @@ const InputLov: React.FC<InputLovProps> = ({
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
         setHighlightedIndex(-1);
+        setInputValue(value ? value.label : "");
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [value]);
 
   useEffect(() => {
-    if (!inputValue.trim()) {
+    if (!inputValue.trim() || !isOpen) {
       setOptions([]);
       setLoading(false);
       return;
@@ -92,7 +93,7 @@ const InputLov: React.FC<InputLovProps> = ({
       clearTimeout(timeoutId);
       setLoading(false);
     };
-  }, [inputValue, loadOptions]);
+  }, [inputValue, loadOptions, isOpen]);
 
   useEffect(() => {
     if (value && !isOpen) {
@@ -105,6 +106,14 @@ const InputLov: React.FC<InputLovProps> = ({
     setInputValue(newValue);
     setIsOpen(true);
     setHighlightedIndex(-1);
+  };
+
+  const handleInputBlur = () => {
+    setTimeout(() => {
+      if (!isOpen) {
+        setInputValue(value ? value.label : "");
+      }
+    }, DEBOUNCE_DELAY_MS);
   };
 
   const handleOptionSelect = (option: Option) => {
@@ -138,8 +147,15 @@ const InputLov: React.FC<InputLovProps> = ({
 
   const handleTriggerClick = () => {
     if (disabled) return;
-    setIsOpen(!isOpen);
-    setTimeout(() => inputRef.current?.focus(), FOCUS_DELAY_MS);
+
+    if (!isOpen) {
+      setIsOpen(true);
+      setInputValue("");
+      setTimeout(() => inputRef.current?.focus(), FOCUS_DELAY_MS);
+    } else {
+      setIsOpen(false);
+      setInputValue(value ? value.label : "");
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -199,6 +215,7 @@ const InputLov: React.FC<InputLovProps> = ({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(true)}
+          onBlur={handleInputBlur}
           placeholder={placeholder}
           disabled={disabled}
           className={`${baseClasses} pr-20`}

@@ -34,8 +34,8 @@
       "title": "The Lord of the Rings",
       "authorId": "2",
       "genreId": "fantasy",
-      "status": "completed",
-      "rating": 5,
+      "status": "not_started",
+      "rating": null,
       "dateAdded": "2025-07-28"
     },
     {

@@ -3,15 +3,15 @@ import { Edit, Trash2, Check, X } from "lucide-react";
 import type { DataTableColumnConfig } from "@/types/data-table";
 import Button from "@/lib/Button/Button";
 
-type DataTableRowProps = {
+interface DataTableRowProps {
   item: any;
   columns: DataTableColumnConfig[];
-  activeIdEditing?: string | null;
+  activeIdEditing: string | null;
   onEdit: () => void;
   onSave: () => void;
   onCancel: () => void;
   onDelete: () => void;
-};
+}
 
 export const DataTableRow: React.FC<DataTableRowProps> = ({
   item,
@@ -33,8 +33,8 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
           className={`p-4 align-middle ${column.width} ${column.className || ""}`}
         >
           {isEditingCurrentItem && column.renderInput
-            ? column.renderInput(item[column.key])
-            : column.renderDisplay(item[column.key])}
+            ? column.renderInput(item[column.key], undefined, item)
+            : column.renderDisplay(item[column.key], item)}
         </td>
       ))}
 
