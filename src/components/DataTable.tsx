@@ -73,7 +73,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
 
   return (
     <div className="w-full border border-[#e0dad1]">
-      <div className="relative w-full overflow-auto">
+      <div className="hidden md:block relative w-full overflow-auto">
         <table className="w-full table-fixed caption-bottom text-sm">
           <colgroup>
             {colWidths.map((w, i) => (
@@ -104,6 +104,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
                   key={item.id}
                   item={item}
                   columns={columns}
+                  headers={headers}
                   activeIdEditing={activeIdEditing || null}
                   onEdit={() => onEdit(item.id)}
                   onSave={() => onSave(item.id)}
@@ -114,6 +115,27 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
             )}
           </tbody>
         </table>
+      </div>
+      <div className="block md:hidden">
+        {(data ?? []).length === 0 ? (
+          <div className="p-4 text-center py-8 text-stone-500">{emptyMessage}</div>
+        ) : (
+          <div className="space-y-4 p-4">
+            {(data ?? []).map(item => (
+              <DataTableRow
+                key={item.id}
+                item={item}
+                columns={columns}
+                headers={headers}
+                activeIdEditing={activeIdEditing || null}
+                onEdit={() => onEdit(item.id)}
+                onSave={() => onSave(item.id)}
+                onCancel={() => onCancel(item.id)}
+                onDelete={() => onDelete(item.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {showPagination ? (

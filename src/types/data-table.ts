@@ -5,6 +5,7 @@ export type DataTableColumnConfig = {
   header: string;
   width: string;
   className?: string;
+  editingStyle?: string;
   renderDisplay: (value: any, item?: any) => ReactNode;
   renderInput?: (value: any, error?: string, item?: any) => ReactNode;
 };
