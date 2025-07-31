@@ -29,7 +29,7 @@ export const useAuthorsMutation = () => {
         ...newAuthor,
       };
 
-      queryClient.setQueryData(QUERY_KEYS.authors, (oldAuthors: any) => {
+      queryClient.setQueryData(QUERY_KEYS.authors, (oldAuthors: Author[] | undefined) => {
         if (!oldAuthors) return [optimisticAuthor];
         return [...oldAuthors, optimisticAuthor];
       });
