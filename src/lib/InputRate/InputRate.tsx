@@ -1,7 +1,7 @@
 import React from "react";
 import { Star } from "lucide-react";
 
-export type InputRateSize = "sm" | "md" | "lg";
+export type InputRateSize = "xs" | "sm" | "md" | "lg";
 const MAX_RATING = 5;
 
 export type InputRateProps = {
@@ -27,13 +27,22 @@ const InputRate: React.FC<InputRateProps> = ({
 }) => {
   const normalizedValue = Math.max(0, Math.min(MAX_RATING, Math.round(value)));
 
-  const sizes = {
+  const nonEditableSizes = {
+    xs: "w-4 h-4",
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6",
+  };
+
+  const editableSizes = {
+    xs: "w-3 h-3",
     sm: "w-4 h-4",
     md: "w-5 h-5",
     lg: "w-6 h-6",
   };
 
   const radioSizes = {
+    xs: "w-6 h-6",
     sm: "w-8 h-8",
     md: "w-10 h-10",
     lg: "w-12 h-12",
@@ -56,7 +65,7 @@ const InputRate: React.FC<InputRateProps> = ({
         {[1, 2, 3, 4, 5].map(starValue => (
           <Star
             key={starValue}
-            className={`${sizes[size]} ${
+            className={`${nonEditableSizes[size]} ${
               starValue <= normalizedValue
                 ? "text-amber-400 fill-amber-400"
                 : "text-gray-300 fill-gray-300"
@@ -104,7 +113,7 @@ const InputRate: React.FC<InputRateProps> = ({
             />
 
             <Star
-              className={`${sizes[size]} ${
+              className={`${editableSizes[size]} ${
                 normalizedValue >= starValue ? "text-amber-500 fill-amber-500" : "text-amber-400"
               }`}
             />
