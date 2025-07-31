@@ -12,7 +12,9 @@ import { useTableStore } from "../store/tableStore";
 import { useAuthorsMutation } from "../hooks/api/useAuthorsMutation";
 import { useGenresMutation } from "../hooks/api/useGenresMutation";
 import type { Control } from "react-hook-form";
-import { sortBooks } from "../utils/books";
+import { applyFilterToBooks, sortBooks } from "../utils/books";
+import InputText from "@/lib/InputText/InputText";
+import { useDebounce } from "use-debounce";
 
 const BookTable: React.FC = () => {
   const [authorSearch, setAuthorSearch] = React.useState<string>("");
@@ -23,35 +25,45 @@ const BookTable: React.FC = () => {
   const { createAuthor } = useAuthorsMutation();
   const { createGenre } = useGenresMutation();
 
-  const { currentPage, pageSize, sortConfig, setCurrentPage, setTotalItems, toggleSort } =
-    useTableStore();
+  const {
+    searchTerm,
+    currentPage,
+    pageSize,
+    sortConfig,
+    setCurrentPage,
+    setTotalItems,
+    toggleSort,
+    setSearchTerm,
+  } = useTableStore();
+
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+  const filteredBooks = React.useMemo(() => {
+    if (!books) return [];
+    return applyFilterToBooks(books, debouncedSearchTerm);
+  }, [books, debouncedSearchTerm]);
+
+  const totalPages = filteredBooks ? Math.ceil(filteredBooks.length / pageSize) : 0;
 
   React.useEffect(() => {
-    if (books) {
-      setTotalItems(books.length);
-    }
-  }, [books, setTotalItems]);
-
-  React.useEffect(() => {
-    if (books && books.length > 0) {
-      const maxPages = Math.ceil(books.length / pageSize);
+    const totalItems = filteredBooks?.length || 0;
+    setTotalItems(totalItems);
+    if (filteredBooks && filteredBooks.length > 0) {
+      const maxPages = Math.ceil(filteredBooks.length / pageSize);
       if (currentPage > maxPages) {
         setCurrentPage(maxPages);
       }
-    } else if (books && books.length === 0) {
+    } else if (filteredBooks && filteredBooks.length === 0) {
       setCurrentPage(1);
     }
-  }, [books, currentPage, pageSize, setCurrentPage]);
+  }, [filteredBooks, currentPage, pageSize, setCurrentPage, setTotalItems]);
 
   const processedBooks = React.useMemo(() => {
-    if (!books) return [];
-    const sortedBooks = sortBooks(books, sortConfig);
+    if (!filteredBooks || filteredBooks.length === 0) return [];
+    const sortedBooks = sortBooks(filteredBooks, sortConfig);
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     return sortedBooks.slice(startIndex, endIndex);
-  }, [books, sortConfig, currentPage, pageSize]);
-
-  const totalPages = books ? Math.ceil(books.length / pageSize) : 0;
+  }, [filteredBooks, sortConfig, currentPage, pageSize]);
 
   const {
     control,
@@ -107,7 +119,13 @@ const BookTable: React.FC = () => {
         <CreateBookForm />
       </header>
 
-      <div className="p-6 pt-0 flex flex-col items-center">
+      <div className="p-6 pt-0 flex flex-col items-center gap-4">
+        <InputText
+          disabled={isLoading}
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="Search..."
+        />
         <DataTable
           data={processedBooks}
           columns={columns}
@@ -123,7 +141,7 @@ const BookTable: React.FC = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           pageSize={pageSize}
-          totalItems={books?.length || 0}
+          totalItems={filteredBooks?.length || 0}
           onPageChange={setCurrentPage}
           sortConfig={sortConfig}
           onSort={toggleSort}

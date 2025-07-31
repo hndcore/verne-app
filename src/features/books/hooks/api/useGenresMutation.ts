@@ -29,10 +29,13 @@ export const useGenresMutation = () => {
         ...newGenre,
       };
 
-      queryClient.setQueryData(QUERY_KEYS.genres, (oldGenres: Genre[] | undefined) => {
-        if (!oldGenres) return [optimisticGenre];
-        return [...oldGenres, optimisticGenre];
-      });
+      queryClient.setQueryData(
+        [QUERY_KEYS.genres, { q: newGenre.name }],
+        (oldGenres: Genre[] | undefined) => {
+          if (!oldGenres) return [optimisticGenre];
+          return [...oldGenres, optimisticGenre];
+        },
+      );
 
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.genres });
     },

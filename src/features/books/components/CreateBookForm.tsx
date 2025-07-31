@@ -44,8 +44,8 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
   const { createBook } = useBookMutations();
   const { createAuthor } = useAuthorsMutation();
   const { createGenre } = useGenresMutation();
-  const { data: authors } = useAuthors(authorSearch || undefined);
-  const { data: genres } = useGenres(genreSearch || undefined);
+  const { data: authors } = useAuthors(authorSearch || "");
+  const { data: genres } = useGenres(genreSearch || "");
 
   const {
     control,

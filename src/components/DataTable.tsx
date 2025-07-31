@@ -116,7 +116,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
         </table>
       </div>
 
-      {showPagination && (
+      {showPagination ? (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -124,7 +124,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
           totalItems={totalItems}
           onPageChange={onPageChange}
         />
-      )}
+      ) : null}
     </div>
   );
 };
