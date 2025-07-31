@@ -1,6 +1,7 @@
 import type { BadgeVariant } from "@/lib/Badge/Badge";
 import type { Author, BookExtended } from "../types/book";
 import type { SortConfig } from "../store/tableStore";
+import { formatDate } from "@/utils/date";
 
 const getBadgeVariantByStatus = (status: string): BadgeVariant => {
   switch (status) {
@@ -79,4 +80,19 @@ const sortBooks = (books: BookExtended[], sortConfig: SortConfig): BookExtended[
   });
 };
 
-export { getBadgeVariantByStatus, getBadgeTextByStatus, sortBooks };
+const applyFilterToBooks = (books: BookExtended[], searchTerm: string): BookExtended[] => {
+  if (!searchTerm) return books;
+  const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+  return books.filter(
+    book =>
+      book.title.toLowerCase().includes(lowerCaseSearchTerm) ||
+      book.author.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      book.genre.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      book.status.replace("_", " ").toLowerCase().includes(lowerCaseSearchTerm) ||
+      (book.rating !== null && book.rating.toString().includes(lowerCaseSearchTerm)) ||
+      formatDate(book.dateAdded).toLowerCase().includes(lowerCaseSearchTerm),
+  );
+};
+
+export { getBadgeVariantByStatus, getBadgeTextByStatus, sortBooks, applyFilterToBooks };

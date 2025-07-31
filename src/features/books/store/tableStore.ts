@@ -6,10 +6,12 @@ export type SortConfig = {
 };
 
 export type TableState = {
+  searchTerm: string;
   currentPage: number;
   pageSize: number;
   totalItems: number;
   sortConfig: SortConfig;
+  setSearchTerm: (term: string) => void;
   setCurrentPage: (page: number) => void;
   setTotalItems: (total: number) => void;
   setSortConfig: (config: SortConfig) => void;
@@ -18,10 +20,12 @@ export type TableState = {
 };
 
 export const useTableStore = create<TableState>((set, get) => ({
+  searchTerm: "",
   currentPage: 1,
   pageSize: 5,
   totalItems: 0,
   sortConfig: { key: "dateAdded", direction: "desc" as const },
+  setSearchTerm: (term: string) => set({ searchTerm: term }),
   setCurrentPage: (page: number) => set({ currentPage: page }),
   setTotalItems: (total: number) => set({ totalItems: total }),
   setSortConfig: (config: SortConfig) => set({ sortConfig: config }),
