@@ -7,6 +7,7 @@ import InputRate from "@/lib/InputRate/InputRate";
 import InputText from "@/lib/InputText/InputText";
 import InputLov from "@/lib/InputLov/InputLov";
 import type { BookFormFields } from "../hooks/useBookForm";
+import { formatDate } from "@/utils/date";
 
 interface CreateBookColumnsParams {
   control: Control<BookFormFields>;
@@ -14,6 +15,8 @@ interface CreateBookColumnsParams {
   genres?: { id: string; name: string }[];
   setAuthorSearch: (search: string) => void;
   setGenresSearch: (search: string) => void;
+  addAuthor: (name: string) => Promise<void>;
+  addGenre: (name: string) => Promise<void>;
 }
 
 export const createBookColumns = ({
@@ -22,6 +25,8 @@ export const createBookColumns = ({
   genres,
   setAuthorSearch,
   setGenresSearch,
+  addAuthor,
+  addGenre,
 }: CreateBookColumnsParams): DataTableColumnConfig[] => [
   {
     key: "title",
@@ -71,6 +76,10 @@ export const createBookColumns = ({
                   value: a.id,
                 }));
               }}
+              onCreateOption={async (name: string) => {
+                await addAuthor(name);
+                field.onChange(name);
+              }}
               placeholder="Select author"
             />
           );
@@ -103,6 +112,10 @@ export const createBookColumns = ({
                   label: g.name,
                   value: g.id,
                 }));
+              }}
+              onCreateOption={async (name: string) => {
+                await addGenre(name);
+                field.onChange(name);
               }}
               placeholder="Select genre"
             />
@@ -169,13 +182,13 @@ export const createBookColumns = ({
     key: "dateAdded",
     header: "Date Added",
     width: "w-24",
-    renderDisplay: (value: string) => value,
+    renderDisplay: (value: string) => formatDate(value),
     renderInput: () => (
       <Controller
         name="dateAdded"
         control={control as Control<BookFormFields>}
         render={({ field }) => (
-          <InputText value={field.value || ""} onChange={field.onChange} size="sm" disabled />
+          <InputText value={formatDate(field.value) || ""} size="sm" disabled />
         )}
       />
     ),

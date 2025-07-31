@@ -31,7 +31,7 @@ const DeleteBookDialog: React.FC<DeleteBookDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="sm:max-w-[400px]" preventOutsideClick={true}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-600">
             <Trash2 className="w-5 h-5" />

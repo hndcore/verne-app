@@ -81,7 +81,7 @@ export const useBookMutations = () => {
       }
       return id; // Return the deleted book's ID for optimistic update
     },
-    onSuccess: id => {
+    onSuccess: (id: string) => {
       toast.success("Book deleted successfully", { theme: "colored" });
 
       // Optimistic update for the book list
