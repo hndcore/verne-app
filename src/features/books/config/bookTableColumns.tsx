@@ -160,6 +160,7 @@ export const createBookColumns = ({
     key: "rating",
     header: "Rating",
     width: "w-40 p-2",
+    editingStyle: "mt-[20px] mb-[30px]",
     renderDisplay: (value: number) =>
       value && <InputRate value={value} editable={false} size="xs" />,
     renderInput: () => (

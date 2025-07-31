@@ -94,7 +94,7 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
         {columns.map((column, index) => (
           <div
             key={column.key}
-            className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 ${column.key === "rating" && isEditingCurrentItem ? "mt-[20px] mb-[30px]" : ""}`}
+            className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 ${column.editingStyle && isEditingCurrentItem ? column.editingStyle : ""}`}
           >
             <span className="text-sm font-medium text-slate-600 min-w-0 sm:w-1/3">
               {headers[index]}:
