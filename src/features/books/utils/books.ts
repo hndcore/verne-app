@@ -90,7 +90,9 @@ const applyFilterToBooks = (books: BookExtended[], searchTerm: string): BookExte
       book.author.name.toLowerCase().includes(lowerCaseSearchTerm) ||
       book.genre.name.toLowerCase().includes(lowerCaseSearchTerm) ||
       book.status.replace("_", " ").toLowerCase().includes(lowerCaseSearchTerm) ||
-      (book.rating !== null && book.rating.toString().includes(lowerCaseSearchTerm)) ||
+      (book.rating !== null &&
+        !isNaN(parseFloat(lowerCaseSearchTerm)) &&
+        book.rating === parseFloat(lowerCaseSearchTerm)) ||
       formatDate(book.dateAdded).toLowerCase().includes(lowerCaseSearchTerm),
   );
 };
