@@ -19,6 +19,8 @@ import useGenres from "../hooks/api/useGenres";
 import type { BookStatus } from "../types/book";
 import { getBadgeTextByStatus } from "../utils/books";
 import { Plus } from "lucide-react";
+import { useAuthorsMutation } from "../hooks/api/useAuthorsMutation";
+import { useGenresMutation } from "../hooks/api/useGenresMutation";
 
 export type CreateBookFormFields = {
   title: string;
@@ -40,6 +42,8 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
   const [genreSearch, setGenreSearch] = useState<string>("");
 
   const { createBook } = useBookMutations();
+  const { createAuthor } = useAuthorsMutation();
+  const { createGenre } = useGenresMutation();
   const { data: authors } = useAuthors(authorSearch || undefined);
   const { data: genres } = useGenres(genreSearch || undefined);
 
@@ -117,7 +121,6 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
 
       if (hasErrors) return;
 
-      // If status is not "completed", set rating to null
       const processedData = {
         ...data,
         rating: data.status === "completed" ? data.rating : null,
@@ -148,8 +151,16 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
     setGenreSearch("");
   };
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      handleClose();
+    } else {
+      setIsOpen(true);
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {trigger || (
           <Button variant="primary" size="md" icon={<Plus className="w-4 h-4" />}>
@@ -157,7 +168,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px]" preventOutsideClick={true}>
         <DialogHeader>
           <DialogTitle>Add New Book</DialogTitle>
         </DialogHeader>
@@ -185,6 +196,10 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
                     onChange={option => field.onChange(option?.value || "")}
                     placeholder="Search and select author"
                     loadOptions={loadAuthors}
+                    onCreateOption={async (name: string) => {
+                      const newAuthor = await createAuthor.mutateAsync({ name });
+                      field.onChange(newAuthor.id);
+                    }}
                   />
                 )}
               />
@@ -204,6 +219,10 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
                     onChange={option => field.onChange(option?.value || "")}
                     placeholder="Search and select genre"
                     loadOptions={loadGenres}
+                    onCreateOption={async (name: string) => {
+                      const newGenre = await createGenre.mutateAsync({ name });
+                      field.onChange(newGenre.id);
+                    }}
                   />
                 )}
               />

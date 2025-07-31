@@ -4,10 +4,15 @@ import { ToastContainer } from "react-toastify";
 import DataTable from "@/components/DataTable";
 import useAuthors from "../hooks/api/useAuthors";
 import useGenres from "../hooks/api/useGenres";
-import { useBookForm } from "../hooks/useBookForm";
+import { useBookForm, type BookFormFields } from "../hooks/useBookForm";
 import { createBookColumns } from "../config/bookTableColumns";
 import CreateBookForm from "./CreateBookForm";
 import DeleteBookDialog from "./DeleteBookDialog";
+import { useTableStore } from "../store/tableStore";
+import { useAuthorsMutation } from "../hooks/api/useAuthorsMutation";
+import { useGenresMutation } from "../hooks/api/useGenresMutation";
+import type { Control } from "react-hook-form";
+import { sortBooks } from "../utils/books";
 
 const BookTable: React.FC = () => {
   const [authorSearch, setAuthorSearch] = React.useState<string>("");
@@ -15,6 +20,38 @@ const BookTable: React.FC = () => {
   const { data: books, isLoading, isError } = useBooks();
   const { data: authors } = useAuthors(authorSearch || undefined);
   const { data: genres } = useGenres(genresSearch || undefined);
+  const { createAuthor } = useAuthorsMutation();
+  const { createGenre } = useGenresMutation();
+
+  const { currentPage, pageSize, sortConfig, setCurrentPage, setTotalItems, toggleSort } =
+    useTableStore();
+
+  React.useEffect(() => {
+    if (books) {
+      setTotalItems(books.length);
+    }
+  }, [books, setTotalItems]);
+
+  React.useEffect(() => {
+    if (books && books.length > 0) {
+      const maxPages = Math.ceil(books.length / pageSize);
+      if (currentPage > maxPages) {
+        setCurrentPage(maxPages);
+      }
+    } else if (books && books.length === 0) {
+      setCurrentPage(1);
+    }
+  }, [books, currentPage, pageSize, setCurrentPage]);
+
+  const processedBooks = React.useMemo(() => {
+    if (!books) return [];
+    const sortedBooks = sortBooks(books, sortConfig);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return sortedBooks.slice(startIndex, endIndex);
+  }, [books, sortConfig, currentPage, pageSize]);
+
+  const totalPages = books ? Math.ceil(books.length / pageSize) : 0;
 
   const {
     control,
@@ -42,14 +79,24 @@ const BookTable: React.FC = () => {
     handleDelete(id, books);
   };
 
+  const addAuthor = async (name: string) => {
+    await createAuthor.mutateAsync({ name });
+  };
+
+  const addGenre = async (name: string) => {
+    await createGenre.mutateAsync({ name });
+  };
+
   if (isError) return <div>Error loading books</div>;
 
   const columns = createBookColumns({
-    control: control as any,
+    control: control as Control<BookFormFields>,
     authors,
     genres,
     setAuthorSearch,
     setGenresSearch,
+    addAuthor,
+    addGenre,
   });
 
   return (
@@ -62,7 +109,7 @@ const BookTable: React.FC = () => {
 
       <div className="p-6 pt-0 flex flex-col items-center">
         <DataTable
-          books={books}
+          data={processedBooks}
           columns={columns}
           isLoading={isLoading}
           isError={isError}
@@ -73,6 +120,14 @@ const BookTable: React.FC = () => {
           onSave={handleSave}
           onCancel={handleCancel}
           onDelete={handleDeleteBook}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          totalItems={books?.length || 0}
+          onPageChange={setCurrentPage}
+          sortConfig={sortConfig}
+          onSort={toggleSort}
+          emptyMessage="No books in your collection yet. Add your first book to get started!"
         />
       </div>
 
