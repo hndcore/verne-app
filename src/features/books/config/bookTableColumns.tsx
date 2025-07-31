@@ -32,7 +32,7 @@ export const createBookColumns = ({
     renderInput: () => (
       <Controller
         name="title"
-        control={control}
+        control={control as Control<BookFormFields>}
         render={({ field, fieldState }) => (
           <InputText
             value={field.value || ""}
@@ -53,7 +53,7 @@ export const createBookColumns = ({
     renderInput: (_value: string, _error?: string, item?: any) => (
       <Controller
         name="authorId"
-        control={control}
+        control={control as Control<BookFormFields>}
         render={({ field }) => {
           let currentAuthor = field.value ? authors?.find(a => a.id === field.value) : null;
           if (!currentAuthor && item?.author && item.author.id === field.value) {
@@ -86,7 +86,7 @@ export const createBookColumns = ({
     renderInput: (_value: string, _error?: string, item?: any) => (
       <Controller
         name="genreId"
-        control={control}
+        control={control as Control<BookFormFields>}
         render={({ field }) => {
           let currentGenre = field.value ? genres?.find(g => g.id === field.value) : null;
           if (!currentGenre && item?.genre && item.genre.id === field.value) {
@@ -121,7 +121,7 @@ export const createBookColumns = ({
     renderInput: () => (
       <Controller
         name="status"
-        control={control}
+        control={control as Control<BookFormFields>}
         render={({ field, fieldState }) => {
           const statusOptions = ["completed", "reading", "not_started", "dropped", "on_hold"];
           return (
@@ -173,7 +173,7 @@ export const createBookColumns = ({
     renderInput: () => (
       <Controller
         name="dateAdded"
-        control={control}
+        control={control as Control<BookFormFields>}
         render={({ field }) => (
           <InputText value={field.value || ""} onChange={field.onChange} size="sm" disabled />
         )}

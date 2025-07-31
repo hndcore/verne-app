@@ -84,7 +84,6 @@ export const useBookForm = () => {
         }
       });
     })();
-    console.log("handleSubmit called");
   };
 
   const handleCancel = (id: string, books?: any[]) => {

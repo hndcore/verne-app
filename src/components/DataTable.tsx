@@ -34,22 +34,6 @@ const DataTable: React.FC<DataTableProps> = ({
   onCancel,
   onDelete,
 }) => {
-  const handleEdit = (id: string) => {
-    onEdit(id);
-  };
-
-  const handleSave = (id: string) => {
-    onSave(id);
-  };
-
-  const handleCancel = (id: string) => {
-    onCancel(id);
-  };
-
-  const handleDelete = (id: string) => {
-    onDelete(id);
-  };
-
   if (isError) {
     return (
       <div className="p-4 text-red-800" data-testid={`${testId}-error`}>
@@ -95,10 +79,10 @@ const DataTable: React.FC<DataTableProps> = ({
                   item={book}
                   columns={columns}
                   activeIdEditing={activeIdEditing || null}
-                  onEdit={() => handleEdit(book.id)}
-                  onSave={() => handleSave(book.id)}
-                  onCancel={() => handleCancel(book.id)}
-                  onDelete={() => handleDelete(book.id)}
+                  onEdit={() => onEdit(book.id)}
+                  onSave={() => onSave(book.id)}
+                  onCancel={() => onCancel(book.id)}
+                  onDelete={() => onDelete(book.id)}
                 />
               ))
             )}

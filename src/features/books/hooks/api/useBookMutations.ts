@@ -17,7 +17,10 @@ export const useBookMutations = () => {
           id: crypto.randomUUID(),
         }),
       });
-      if (!response.ok) toast.error("Couldn't create the book.", { theme: "colored" });
+      if (!response.ok) {
+        toast.error("Couldn't create the book.", { theme: "colored" });
+        throw new Error("Couldn't create the book.");
+      }
       return response.json();
     },
     onSuccess: (newBook, variables) => {
@@ -47,8 +50,10 @@ export const useBookMutations = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!response.ok)
+      if (!response.ok) {
         toast.error("Couldn't perform the update of the book.", { theme: "colored" });
+        throw new Error("Couldn't perform the update of the book.");
+      }
       return response.json();
     },
     onSuccess: (updatedBook, { id }) => {
@@ -70,7 +75,10 @@ export const useBookMutations = () => {
       const response = await fetch(`/api/books/${id}`, {
         method: "DELETE",
       });
-      if (!response.ok) toast.error("Couldn't delete the book.", { theme: "colored" });
+      if (!response.ok) {
+        toast.error("Couldn't delete the book.", { theme: "colored" });
+        throw new Error("Couldn't delete the book.");
+      }
       return id; // Return the deleted book's ID for optimistic update
     },
     onSuccess: id => {
