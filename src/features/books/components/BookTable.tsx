@@ -1,13 +1,13 @@
-import useBooks from "./hooks/api/useBooks";
-import Button from "@/lib/Button/Button";
-import { Plus } from "lucide-react";
+import useBooks from "../hooks/api/useBooks";
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import DataTable from "@/components/DataTable";
-import useAuthors from "./hooks/api/useAuthors";
-import useGenres from "./hooks/api/useGenres";
-import { useBookForm } from "./hooks/useBookForm";
-import { createBookColumns } from "./config/bookTableColumns";
+import useAuthors from "../hooks/api/useAuthors";
+import useGenres from "../hooks/api/useGenres";
+import { useBookForm } from "../hooks/useBookForm";
+import { createBookColumns } from "../config/bookTableColumns";
+import CreateBookForm from "./CreateBookForm";
+import DeleteBookDialog from "./DeleteBookDialog";
 
 const BookTable: React.FC = () => {
   const [authorSearch, setAuthorSearch] = React.useState<string>("");
@@ -23,6 +23,11 @@ const BookTable: React.FC = () => {
     handleSave,
     handleCancel: formHandleCancel,
     handleDelete,
+    deleteDialogOpen,
+    bookToDelete,
+    confirmDelete,
+    cancelDelete,
+    isDeleting,
   } = useBookForm();
 
   const handleEdit = (id: string) => {
@@ -31,6 +36,10 @@ const BookTable: React.FC = () => {
 
   const handleCancel = (id: string) => {
     formHandleCancel(id, books);
+  };
+
+  const handleDeleteBook = (id: string) => {
+    handleDelete(id, books);
   };
 
   if (isError) return <div>Error loading books</div>;
@@ -48,16 +57,7 @@ const BookTable: React.FC = () => {
       <ToastContainer />
       <header className="flex flex-col space-y-1.5 p-6 flex-row items-center justify-between">
         <h1 className="text-2xl font-bold text-stone-800">Your Literary Collection</h1>
-        <Button
-          disabled={isError}
-          loading={isLoading}
-          variant="primary"
-          size="md"
-          onClick={() => toast.success("Add Book button clicked!", { theme: "colored" })}
-          icon={<Plus className="w-4 h-4" />}
-        >
-          Add Book
-        </Button>
+        <CreateBookForm />
       </header>
 
       <div className="p-6 pt-0 flex flex-col items-center">
@@ -72,9 +72,17 @@ const BookTable: React.FC = () => {
           onEdit={handleEdit}
           onSave={handleSave}
           onCancel={handleCancel}
-          onDelete={handleDelete}
+          onDelete={handleDeleteBook}
         />
       </div>
+
+      <DeleteBookDialog
+        isOpen={deleteDialogOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        bookTitle={bookToDelete?.title}
+        isDeleting={isDeleting}
+      />
     </section>
   );
 };

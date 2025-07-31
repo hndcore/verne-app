@@ -1,4 +1,4 @@
-import BookTable from "@/features/books/BookTable";
+import BookTable from "@/features/books/components/BookTable";
 import Header from "@/components/Header";
 
 const Home: React.FC = () => {

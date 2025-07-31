@@ -17,7 +17,9 @@ export type BookFormFields = {
 
 export const useBookForm = () => {
   const [editingBookId, setEditingBookId] = useState<string | null>(null);
-  const { updateBook } = useBookMutations();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<{ id: string; title: string } | null>(null);
+  const { updateBook, deleteBook } = useBookMutations();
 
   const getBookData = (bookExtended: any): BookFormFields => ({
     id: bookExtended.id,
@@ -74,9 +76,7 @@ export const useBookForm = () => {
   };
 
   const handleSave = async (_id: string) => {
-    console.log("handleSave called");
     handleSubmit(handleFormSubmit, errors => {
-      console.log("Validation errors:", errors);
       Object.keys(errors).forEach(key => {
         const error = errors[key as keyof typeof errors];
         if (error?.message) {
@@ -95,8 +95,28 @@ export const useBookForm = () => {
     setEditingBookId(null);
   };
 
-  const handleDelete = (id: string) => {
-    console.log("Delete book", id);
+  const handleDelete = (id: string, books?: any[]) => {
+    const book = books?.find(b => b.id === id);
+    if (book) {
+      setBookToDelete({ id: book.id, title: book.title });
+      setDeleteDialogOpen(true);
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (bookToDelete) {
+      try {
+        await deleteBook.mutateAsync(bookToDelete.id);
+        setBookToDelete(null);
+      } catch (error) {
+        console.error("Failed to delete book:", error);
+      }
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteDialogOpen(false);
+    setBookToDelete(null);
   };
 
   const getFormErrors = (id: string) => {
@@ -120,5 +140,10 @@ export const useBookForm = () => {
     handleCancel,
     handleDelete,
     getFormErrors,
+    deleteDialogOpen,
+    bookToDelete,
+    confirmDelete,
+    cancelDelete,
+    isDeleting: deleteBook.isPending,
   };
 };

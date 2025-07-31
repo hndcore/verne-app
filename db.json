@@ -17,6 +17,10 @@
     {
       "id": "2",
       "name": "J.R.R. Tolkien"
+    },
+    {
+      "id": "3",
+      "name": "George R.R. Martin"
     }
   ],
   "books": [
@@ -46,6 +50,15 @@
       "status": "reading",
       "rating": null,
       "dateAdded": "2025-07-29"
+    },
+    {
+      "title": "Game of Thrones",
+      "authorId": "3",
+      "genreId": "fantasy",
+      "status": "completed",
+      "rating": 5,
+      "dateAdded": "2025-07-30T22:31:49.593Z",
+      "id": "16a24707-ec11-4f0d-81cd-c2141bfe7339"
     }
   ]
 }
