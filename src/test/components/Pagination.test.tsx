@@ -11,10 +11,14 @@ describe("Pagination", () => {
         onPageChange={() => {}}
         pageSize={10}
         totalItems={15}
+        testId="test-pagination"
       />,
     );
-    expect(screen.getByTestId("pagination")).toBeInTheDocument();
+    expect(screen.getByTestId("test-pagination-container")).toBeInTheDocument();
+    expect(screen.getByTestId("test-pagination-info")).toBeInTheDocument();
+    expect(screen.getByTestId("test-pagination-controls")).toBeInTheDocument();
   });
+
   test("displays without items", () => {
     render(
       <Pagination
@@ -23,10 +27,12 @@ describe("Pagination", () => {
         onPageChange={() => {}}
         pageSize={10}
         totalItems={1}
+        testId="test-pagination"
       />,
     );
-    expect(screen.queryByTestId("pagination")).toBeNull();
+    expect(screen.queryByTestId("test-pagination-container")).toBeNull();
   });
+
   test("renders on last page", () => {
     render(
       <Pagination
@@ -35,10 +41,12 @@ describe("Pagination", () => {
         onPageChange={() => {}}
         pageSize={10}
         totalItems={50}
+        testId="test-pagination"
       />,
     );
     expect(screen.getByText("41-50 of 50")).toBeInTheDocument();
   });
+
   test("calls onPageChange when next page button is clicked", () => {
     const onPageChange = vi.fn();
     render(
@@ -48,9 +56,10 @@ describe("Pagination", () => {
         onPageChange={onPageChange}
         pageSize={10}
         totalItems={30}
+        testId="test-pagination"
       />,
     );
-    const nextButton = screen.getByTestId("next-button");
+    const nextButton = screen.getByTestId("test-pagination-next-button");
     expect(nextButton).toBeInTheDocument();
     fireEvent.click(nextButton);
     expect(onPageChange).toHaveBeenCalledWith(2);
@@ -65,9 +74,10 @@ describe("Pagination", () => {
         onPageChange={onPageChange}
         pageSize={10}
         totalItems={30}
+        testId="test-pagination"
       />,
     );
-    const previousButton = screen.getByTestId("previous-button");
+    const previousButton = screen.getByTestId("test-pagination-previous-button");
     expect(previousButton).toBeInTheDocument();
     fireEvent.click(previousButton);
     expect(onPageChange).toHaveBeenCalledWith(1);
@@ -82,9 +92,10 @@ describe("Pagination", () => {
         onPageChange={onPageChange}
         pageSize={10}
         totalItems={30}
+        testId="test-pagination"
       />,
     );
-    const firstButton = screen.getByTestId("first-button");
+    const firstButton = screen.getByTestId("test-pagination-first-button");
     expect(firstButton).toBeInTheDocument();
     fireEvent.click(firstButton);
     expect(onPageChange).toHaveBeenCalledWith(1);
@@ -99,9 +110,10 @@ describe("Pagination", () => {
         onPageChange={onPageChange}
         pageSize={10}
         totalItems={30}
+        testId="test-pagination"
       />,
     );
-    const lastButton = screen.getByTestId("last-button");
+    const lastButton = screen.getByTestId("test-pagination-last-button");
     expect(lastButton).toBeInTheDocument();
     fireEvent.click(lastButton);
     expect(onPageChange).toHaveBeenCalledWith(3);

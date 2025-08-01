@@ -19,50 +19,72 @@ interface DetailedBookDialogProps {
   book: BookExtended;
   isOpen: boolean;
   onClose: () => void;
+  testId?: string;
 }
 
-const DetailedBookDialog: React.FC<DetailedBookDialogProps> = ({ book, isOpen, onClose }) => {
+const DetailedBookDialog: React.FC<DetailedBookDialogProps> = ({
+  book,
+  isOpen,
+  onClose,
+  testId = "detailed-book-dialog",
+}) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]" preventOutsideClick={false}>
+      <DialogContent className="sm:max-w-[500px]" preventOutsideClick={false} testId={testId}>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-stone-800">Book Details</DialogTitle>
+          <DialogTitle
+            className="flex items-center gap-2 text-stone-800"
+            data-testid={`${testId}-title`}
+          >
+            Book Details
+          </DialogTitle>
         </DialogHeader>
 
-        <div className="py-4 space-y-6">
+        <div className="py-4 space-y-6" data-testid={`${testId}-content`}>
           {/* Title */}
-          <div>
+          <div data-testid={`${testId}-title-field`}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
-            <InputText value={book.title} readOnly className="bg-gray-50" size="md" />
+            <InputText
+              value={book.title}
+              readOnly
+              className="bg-gray-50"
+              size="md"
+              testId={`${testId}-title-input`}
+            />
           </div>
 
           {/* Author */}
-          <div>
+          <div data-testid={`${testId}-author-field`}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Author</label>
             <InputText
               value={book.author?.name || "Unknown"}
               readOnly
               className="bg-gray-50"
               size="md"
+              testId={`${testId}-author-input`}
             />
           </div>
 
           {/* Genre */}
-          <div>
+          <div data-testid={`${testId}-genre-field`}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Genre</label>
             <InputText
               value={book.genre?.name || "Unknown"}
               readOnly
               className="bg-gray-50"
               size="md"
+              testId={`${testId}-genre-input`}
             />
           </div>
 
           {/* Status */}
-          <div>
+          <div data-testid={`${testId}-status-field`}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <div className="flex">
-              <Badge variant={getBadgeVariantByStatus(book.status)}>
+              <Badge
+                variant={getBadgeVariantByStatus(book.status)}
+                testId={`${testId}-status-badge`}
+              >
                 {getBadgeTextByStatus(book.status)}
               </Badge>
             </div>
@@ -70,29 +92,37 @@ const DetailedBookDialog: React.FC<DetailedBookDialogProps> = ({ book, isOpen, o
 
           {/* Rating */}
           {book.rating && (
-            <div>
+            <div data-testid={`${testId}-rating-field`}>
               <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
               <div className="flex items-center">
-                <InputRate value={book.rating} editable={false} size="md" />
-                <span className="ml-2 text-sm text-gray-600">{book.rating}/5</span>
+                <InputRate
+                  value={book.rating}
+                  editable={false}
+                  size="md"
+                  testId={`${testId}-rating-input`}
+                />
+                <span className="ml-2 text-sm text-gray-600" data-testid={`${testId}-rating-text`}>
+                  {book.rating}/5
+                </span>
               </div>
             </div>
           )}
 
           {/* Date Added */}
-          <div>
+          <div data-testid={`${testId}-date-field`}>
             <label className="block text-sm font-medium text-gray-700 mb-2">Date Added</label>
             <InputText
               value={formatDate(book.dateAdded)}
               readOnly
               className="bg-gray-50"
               size="md"
+              testId={`${testId}-date-input`}
             />
           </div>
         </div>
 
-        <DialogFooter>
-          <Button testId="close-button-detail" variant="secondary" onClick={onClose}>
+        <DialogFooter data-testid={`${testId}-footer`}>
+          <Button testId={`${testId}-footer-close-button`} variant="secondary" onClick={onClose}>
             Close
           </Button>
         </DialogFooter>

@@ -10,10 +10,11 @@ describe("DeleteBookDialog", () => {
         onClose={vi.fn()}
         onConfirm={vi.fn()}
         bookTitle="Test Book"
+        testId="test-dialog"
       />,
     );
-    expect(screen.getByText("Delete Book")).toBeInTheDocument();
-    expect(screen.getByText(/Test Book/)).toBeInTheDocument();
+    expect(screen.getByTestId("test-dialog-title")).toBeInTheDocument();
+    expect(screen.getByTestId("test-dialog-book-title")).toBeInTheDocument();
   });
 
   test("calls onClose when cancel clicked", () => {
@@ -24,9 +25,10 @@ describe("DeleteBookDialog", () => {
         onClose={onClose}
         onConfirm={vi.fn()}
         bookTitle="Test Book"
+        testId="test-dialog"
       />,
     );
-    fireEvent.click(screen.getByText("Cancel"));
+    fireEvent.click(screen.getByTestId("test-dialog-cancel-button"));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
@@ -38,9 +40,10 @@ describe("DeleteBookDialog", () => {
         onClose={vi.fn()}
         onConfirm={onConfirm}
         bookTitle="Test Book"
+        testId="test-dialog"
       />,
     );
-    fireEvent.click(screen.getByText("Delete"));
+    fireEvent.click(screen.getByTestId("test-dialog-confirm-button"));
     expect(onConfirm).toHaveBeenCalledTimes(1);
   });
 });

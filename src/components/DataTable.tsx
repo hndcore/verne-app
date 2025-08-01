@@ -74,9 +74,15 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
   const showPagination = currentPage && totalPages && pageSize && totalItems && onPageChange;
 
   return (
-    <div className="w-full border border-[#e0dad1]">
-      <div className="hidden md:block relative w-full overflow-auto">
-        <table className="w-full table-fixed caption-bottom text-sm">
+    <div className="w-full border border-[#e0dad1]" data-testid={`${testId}-container`}>
+      <div
+        className="hidden md:block relative w-full overflow-auto"
+        data-testid={`${testId}-desktop-view`}
+      >
+        <table
+          className="w-full table-fixed caption-bottom text-sm"
+          data-testid={`${testId}-table`}
+        >
           <colgroup>
             {colWidths.map((w, i) => (
               <col key={i} className={w} />
@@ -89,13 +95,15 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
             columnKeys={columns.map(col => col.key)}
             sortConfig={sortConfig}
             onSort={onSort}
+            testId={`${testId}-header`}
           />
-          <tbody className="[&_tr:last-child]:border-0">
+          <tbody className="[&_tr:last-child]:border-0" data-testid={`${testId}-tbody`}>
             {(data ?? []).length === 0 ? (
-              <tr className="border-b border-[#e0dad1]">
+              <tr className="border-b border-[#e0dad1]" data-testid={`${testId}-empty-row`}>
                 <td
                   colSpan={colWidths.length + 1}
                   className="p-4 align-middle text-center py-8 text-stone-500"
+                  data-testid={`${testId}-empty-message`}
                 >
                   {emptyMessage}
                 </td>
@@ -113,17 +121,23 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
                   onCancel={() => onCancel(item.id)}
                   onDelete={() => onDelete(item.id)}
                   onView={onView ? () => onView(item.id) : undefined}
+                  testId={`${testId}-row`}
                 />
               ))
             )}
           </tbody>
         </table>
       </div>
-      <div className="block md:hidden">
+      <div className="block md:hidden" data-testid={`${testId}-mobile-view`}>
         {(data ?? []).length === 0 ? (
-          <div className="p-4 text-center py-8 text-stone-500">{emptyMessage}</div>
+          <div
+            className="p-4 text-center py-8 text-stone-500"
+            data-testid={`${testId}-mobile-empty-message`}
+          >
+            {emptyMessage}
+          </div>
         ) : (
-          <div className="space-y-4 p-4">
+          <div className="space-y-4 p-4" data-testid={`${testId}-mobile-container`}>
             {(data ?? []).map(item => (
               <DataTableRow
                 key={item.id}
@@ -136,6 +150,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
                 onCancel={() => onCancel(item.id)}
                 onDelete={() => onDelete(item.id)}
                 onView={onView ? () => onView(item.id) : undefined}
+                testId={`${testId}-row`}
               />
             ))}
           </div>
@@ -149,6 +164,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
           pageSize={pageSize}
           totalItems={totalItems}
           onPageChange={onPageChange}
+          testId={`${testId}-pagination`}
         />
       ) : null}
     </div>

@@ -17,6 +17,7 @@ export default defineConfig({
         "src/App.tsx",
         "src/**/**Schema.ts",
         "src/**/query-client.ts",
+        "src/features/books/config/*",
       ],
     },
     include: ["src/**/*.{test,spec}.{ts,tsx}"],

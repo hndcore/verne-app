@@ -34,9 +34,13 @@ const statusOptions = ["completed", "reading", "not_started", "dropped", "on_hol
 
 interface CreateBookFormProps {
   trigger?: React.ReactNode;
+  testId?: string;
 }
 
-const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
+const CreateBookForm: React.FC<CreateBookFormProps> = ({
+  trigger,
+  testId = "create-book-form",
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [authorSearch, setAuthorSearch] = useState<string>("");
   const [genreSearch, setGenreSearch] = useState<string>("");
@@ -161,31 +165,50 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild data-testid={`${testId}-trigger`}>
         {trigger || (
-          <Button variant="primary" size="md" icon={<Plus className="w-4 h-4" />}>
+          <Button
+            variant="primary"
+            size="md"
+            icon={<Plus className="w-4 h-4" />}
+            testId={`${testId}-add-button`}
+          >
             Add Book
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]" preventOutsideClick={true}>
+      <DialogContent className="sm:max-w-[600px]" preventOutsideClick={true} testId={testId}>
         <DialogHeader>
-          <DialogTitle>Add New Book</DialogTitle>
+          <DialogTitle data-testid={`${testId}-title`}>Add New Book</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+          data-testid={`${testId}-form`}
+        >
           <div className="grid grid-cols-1 gap-4">
-            <div data-testid="create-book-title">
+            <div data-testid={`${testId}-title-field`}>
               <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
               <Controller
                 name="title"
                 control={control}
-                render={({ field }) => <InputText {...field} placeholder="Enter book title" />}
+                render={({ field }) => (
+                  <InputText
+                    {...field}
+                    placeholder="Enter book title"
+                    testId={`${testId}-title-input`}
+                  />
+                )}
               />
-              {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+              {errors.title && (
+                <p className="text-red-500 text-sm mt-1" data-testid={`${testId}-title-error`}>
+                  {errors.title.message}
+                </p>
+              )}
             </div>
 
-            <div data-testid="create-book-author">
+            <div data-testid={`${testId}-author-field`}>
               <label className="block text-sm font-medium text-gray-700 mb-1">Author</label>
               <Controller
                 name="authorId"
@@ -200,15 +223,18 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
                       const newAuthor = await createAuthor.mutateAsync({ name });
                       field.onChange(newAuthor.id);
                     }}
+                    testId={`${testId}-author-input`}
                   />
                 )}
               />
               {errors.authorId && (
-                <p className="text-red-500 text-sm mt-1">{errors.authorId.message}</p>
+                <p className="text-red-500 text-sm mt-1" data-testid={`${testId}-author-error`}>
+                  {errors.authorId.message}
+                </p>
               )}
             </div>
 
-            <div data-testid="create-book-genre">
+            <div data-testid={`${testId}-genre-field`}>
               <label className="block text-sm font-medium text-gray-700 mb-1">Genre</label>
               <Controller
                 name="genreId"
@@ -223,15 +249,18 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
                       const newGenre = await createGenre.mutateAsync({ name });
                       field.onChange(newGenre.id);
                     }}
+                    testId={`${testId}-genre-input`}
                   />
                 )}
               />
               {errors.genreId && (
-                <p className="text-red-500 text-sm mt-1">{errors.genreId.message}</p>
+                <p className="text-red-500 text-sm mt-1" data-testid={`${testId}-genre-error`}>
+                  {errors.genreId.message}
+                </p>
               )}
             </div>
 
-            <div data-testid="create-book-status">
+            <div data-testid={`${testId}-status-field`}>
               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
               <Controller
                 name="status"
@@ -242,6 +271,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
                     onChange={field.onChange}
                     className="w-full border border-amber-300 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors duration-200 bg-white"
                     style={{ minHeight: 44 }}
+                    data-testid={`${testId}-status-select`}
                   >
                     <option value="">Select status</option>
                     {statusOptions.map(status => (
@@ -253,35 +283,45 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
                 )}
               />
               {errors.status && (
-                <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                <p className="text-red-500 text-sm mt-1" data-testid={`${testId}-status-error`}>
+                  {errors.status.message}
+                </p>
               )}
             </div>
 
             {watchedStatus === "completed" && (
-              <div data-testid="create-book-rating">
+              <div data-testid={`${testId}-rating-field`}>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
                 <Controller
                   name="rating"
                   control={control}
                   render={({ field }) => (
-                    <InputRate value={field.value || 0} onChange={field.onChange} editable={true} />
+                    <InputRate
+                      value={field.value || 0}
+                      onChange={field.onChange}
+                      editable={true}
+                      testId={`${testId}-rating-input`}
+                    />
                   )}
                 />
                 {errors.rating && (
-                  <p className="text-red-500 text-sm mt-1">{errors.rating.message}</p>
+                  <p className="text-red-500 text-sm mt-1" data-testid={`${testId}-rating-error`}>
+                    {errors.rating.message}
+                  </p>
                 )}
               </div>
             )}
           </div>
 
-          <DialogFooter>
-            <Button variant="secondary" onClick={handleClose}>
+          <DialogFooter data-testid={`${testId}-footer`}>
+            <Button variant="secondary" onClick={handleClose} testId={`${testId}-cancel-button`}>
               Cancel
             </Button>
             <Button
               variant="primary"
               loading={createBook.isPending}
               onClick={handleSubmit(onSubmit)}
+              testId={`${testId}-submit-button`}
             >
               Create Book
             </Button>

@@ -9,6 +9,7 @@ interface PaginationProps {
   pageSize: number;
   totalItems: number;
   onPageChange: (page: number) => void;
+  testId?: string;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -17,6 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({
   pageSize,
   totalItems,
   onPageChange,
+  testId = "pagination",
 }) => {
   const startItem = (currentPage - 1) * pageSize + 1;
   const endItem = Math.min(currentPage * pageSize, totalItems);
@@ -26,17 +28,17 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div
       className="flex items-center justify-between px-6 py-4 border-t border-[#e0dad1] bg-[#f7f6f2]"
-      data-testid="pagination"
+      data-testid={`${testId}-container`}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4" data-testid={`${testId}-info`}>
         <span className="text-sm text-gray-700">
           {startItem}-{endItem} of {totalItems}
         </span>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1" data-testid={`${testId}-controls`}>
         <Button
-          testId="first-button"
+          testId={`${testId}-first-button`}
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(1)}
@@ -45,7 +47,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <ChevronsLeft className="w-4 h-4" />
         </Button>
         <Button
-          testId="previous-button"
+          testId={`${testId}-previous-button`}
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(currentPage - 1)}
@@ -54,13 +56,19 @@ const Pagination: React.FC<PaginationProps> = ({
           <ChevronLeft className="w-4 h-4" />
         </Button>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1" data-testid={`${testId}-pages`}>
           {getVisiblePages(currentPage, totalPages).map((page, index) => (
             <React.Fragment key={index}>
               {page === "..." ? (
-                <span className="px-3 py-1 text-sm text-gray-500">...</span>
+                <span
+                  className="px-3 py-1 text-sm text-gray-500"
+                  data-testid={`${testId}-ellipsis-${index}`}
+                >
+                  ...
+                </span>
               ) : (
                 <Button
+                  testId={`${testId}-page-${page}`}
                   variant={page === currentPage ? "primary" : "ghost"}
                   size="sm"
                   onClick={() => onPageChange(page as number)}
@@ -74,7 +82,7 @@ const Pagination: React.FC<PaginationProps> = ({
         </div>
 
         <Button
-          testId="next-button"
+          testId={`${testId}-next-button`}
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(currentPage + 1)}
@@ -83,7 +91,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <ChevronRight className="w-4 h-4" />
         </Button>
         <Button
-          testId="last-button"
+          testId={`${testId}-last-button`}
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(totalPages)}

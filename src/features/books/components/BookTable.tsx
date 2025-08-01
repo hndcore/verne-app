@@ -124,19 +124,28 @@ const BookTable: React.FC = () => {
   });
 
   return (
-    <section className="border border-[#e0dad1] shadow-sm rounded-lg bg-[#f7f6f2]">
+    <section
+      className="border border-[#e0dad1] shadow-sm rounded-lg bg-[#f7f6f2]"
+      data-testid="book-table"
+    >
       <ToastContainer />
-      <header className="flex flex-col space-y-1.5 p-6 flex-row items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">Your Literary Collection</h1>
-        <CreateBookForm />
+      <header
+        className="flex flex-col space-y-1.5 p-6 flex-row items-center justify-between"
+        data-testid="book-table-header"
+      >
+        <h1 className="text-2xl font-bold text-stone-800" data-testid="book-table-title">
+          Your Literary Collection
+        </h1>
+        <CreateBookForm testId="book-table-create-form" />
       </header>
 
-      <div className="p-6 pt-0 flex flex-col items-center gap-4">
+      <div className="p-6 pt-0 flex flex-col items-center gap-4" data-testid="book-table-content">
         <InputText
           disabled={isLoading}
           value={searchTerm}
           onChange={setSearchTerm}
           placeholder="Search..."
+          testId="book-table-search"
         />
         <DataTable
           data={processedBooks}
@@ -159,6 +168,7 @@ const BookTable: React.FC = () => {
           sortConfig={sortConfig}
           onSort={toggleSort}
           emptyMessage="No books in your collection yet. Add your first book to get started!"
+          testId="book-table-data"
         />
       </div>
 
@@ -168,6 +178,7 @@ const BookTable: React.FC = () => {
         onConfirm={confirmDelete}
         bookTitle={bookToDelete?.title}
         isDeleting={isDeleting}
+        testId="book-table-delete-dialog"
       />
 
       {bookToView && (
@@ -178,6 +189,7 @@ const BookTable: React.FC = () => {
             setViewDialogOpen(false);
             setBookToView(null);
           }}
+          testId="book-table-detail-dialog"
         />
       )}
     </section>

@@ -15,6 +15,7 @@ interface DeleteBookDialogProps {
   onConfirm: () => void;
   bookTitle?: string;
   isDeleting?: boolean;
+  testId?: string;
 }
 
 const DeleteBookDialog: React.FC<DeleteBookDialogProps> = ({
@@ -23,6 +24,7 @@ const DeleteBookDialog: React.FC<DeleteBookDialogProps> = ({
   onConfirm,
   bookTitle,
   isDeleting = false,
+  testId = "delete-book-dialog",
 }) => {
   const handleConfirm = () => {
     onConfirm();
@@ -31,27 +33,49 @@ const DeleteBookDialog: React.FC<DeleteBookDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[400px]" preventOutsideClick={true}>
+      <DialogContent className="sm:max-w-[400px]" preventOutsideClick={true} testId={testId}>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-red-600">
-            <Trash2 className="w-5 h-5" />
+          <DialogTitle
+            className="flex items-center gap-2 text-red-600"
+            data-testid={`${testId}-title`}
+          >
+            <Trash2 className="w-5 h-5" data-testid={`${testId}-icon`} />
             Delete Book
           </DialogTitle>
         </DialogHeader>
 
-        <div className="py-4">
-          <p className="text-gray-700">
+        <div className="py-4" data-testid={`${testId}-content`}>
+          <p className="text-gray-700" data-testid={`${testId}-message`}>
             Are you sure you want to delete{" "}
-            {bookTitle ? <span className="font-semibold">"{bookTitle}"</span> : "this book"}?
+            {bookTitle ? (
+              <span className="font-semibold" data-testid={`${testId}-book-title`}>
+                "{bookTitle}"
+              </span>
+            ) : (
+              "this book"
+            )}
+            ?
           </p>
-          <p className="text-gray-500 text-sm mt-2">This action cannot be undone.</p>
+          <p className="text-gray-500 text-sm mt-2" data-testid={`${testId}-warning`}>
+            This action cannot be undone.
+          </p>
         </div>
 
-        <DialogFooter>
-          <Button variant="secondary" onClick={onClose} disabled={isDeleting}>
+        <DialogFooter data-testid={`${testId}-footer`}>
+          <Button
+            variant="secondary"
+            onClick={onClose}
+            disabled={isDeleting}
+            testId={`${testId}-cancel-button`}
+          >
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleConfirm} loading={isDeleting}>
+          <Button
+            variant="danger"
+            onClick={handleConfirm}
+            loading={isDeleting}
+            testId={`${testId}-confirm-button`}
+          >
             Delete
           </Button>
         </DialogFooter>

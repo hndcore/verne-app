@@ -5,6 +5,9 @@ import { describe, test, expect } from "vitest";
 describe("Header", () => {
   test("renders properly", () => {
     render(<Header />);
-    expect(screen.getByRole("banner")).toBeInTheDocument();
+    expect(screen.getByTestId("header")).toBeInTheDocument();
+    expect(screen.getByTestId("header-title")).toBeInTheDocument();
+    expect(screen.getByTestId("header-subtitle")).toBeInTheDocument();
+    expect(screen.getByTestId("header-logo")).toBeInTheDocument();
   });
 });

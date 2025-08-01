@@ -28,11 +28,12 @@ describe("DataTableRow", () => {
             onSave={vi.fn()}
             onCancel={vi.fn()}
             onDelete={vi.fn()}
+            testId="test-row"
           />
         </tbody>
       </table>,
     );
-    expect(screen.getByTestId("data-table-row-1")).toBeInTheDocument();
+    expect(screen.getByTestId("test-row-1")).toBeInTheDocument();
   });
 
   test("calls onEdit when edit button clicked", () => {
@@ -49,11 +50,12 @@ describe("DataTableRow", () => {
             onSave={vi.fn()}
             onCancel={vi.fn()}
             onDelete={vi.fn()}
+            testId="test-row"
           />
         </tbody>
       </table>,
     );
-    fireEvent.click(screen.getAllByTestId("edit-button")[1]);
+    fireEvent.click(screen.getByTestId("test-row-edit-button-1"));
     expect(onEdit).toHaveBeenCalledTimes(1);
   });
 
@@ -70,10 +72,12 @@ describe("DataTableRow", () => {
             onSave={vi.fn()}
             onCancel={vi.fn()}
             onDelete={vi.fn()}
+            testId="test-row"
           />
         </tbody>
       </table>,
     );
-    expect(screen.getByRole("button", { name: /save/i })).toBeInTheDocument();
+    expect(screen.getByTestId("test-row-save-button-1")).toBeInTheDocument();
+    expect(screen.getByTestId("test-row-cancel-button-1")).toBeInTheDocument();
   });
 });
