@@ -10,7 +10,6 @@ import Button from "@/lib/Button/Button";
 import Badge from "@/lib/Badge/Badge";
 import InputText from "@/lib/InputText/InputText";
 import InputRate from "@/lib/InputRate/InputRate";
-import { Eye } from "lucide-react";
 import type { BookExtended } from "../types/book";
 import { getBadgeTextByStatus, getBadgeVariantByStatus } from "../utils/books";
 import { formatDate } from "@/utils/date";
