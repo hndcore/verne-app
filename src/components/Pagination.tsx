@@ -24,7 +24,10 @@ const Pagination: React.FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 border-t border-[#e0dad1] bg-[#f7f6f2]">
+    <div
+      className="flex items-center justify-between px-6 py-4 border-t border-[#e0dad1] bg-[#f7f6f2]"
+      data-testid="pagination"
+    >
       <div className="flex items-center gap-4">
         <span className="text-sm text-gray-700">
           {startItem}-{endItem} of {totalItems}
@@ -33,6 +36,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
       <div className="flex items-center gap-1">
         <Button
+          testId="first-button"
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(1)}
@@ -41,6 +45,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <ChevronsLeft className="w-4 h-4" />
         </Button>
         <Button
+          testId="previous-button"
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(currentPage - 1)}
@@ -69,6 +74,7 @@ const Pagination: React.FC<PaginationProps> = ({
         </div>
 
         <Button
+          testId="next-button"
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(currentPage + 1)}
@@ -77,6 +83,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <ChevronRight className="w-4 h-4" />
         </Button>
         <Button
+          testId="last-button"
           variant="ghost"
           size="sm"
           onClick={() => onPageChange(totalPages)}

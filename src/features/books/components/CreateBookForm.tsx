@@ -175,7 +175,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 gap-4">
-            <div>
+            <div data-testid="create-book-title">
               <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
               <Controller
                 name="title"
@@ -185,7 +185,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
               {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
             </div>
 
-            <div>
+            <div data-testid="create-book-author">
               <label className="block text-sm font-medium text-gray-700 mb-1">Author</label>
               <Controller
                 name="authorId"
@@ -208,7 +208,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
               )}
             </div>
 
-            <div>
+            <div data-testid="create-book-genre">
               <label className="block text-sm font-medium text-gray-700 mb-1">Genre</label>
               <Controller
                 name="genreId"
@@ -231,7 +231,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
               )}
             </div>
 
-            <div>
+            <div data-testid="create-book-status">
               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
               <Controller
                 name="status"
@@ -258,7 +258,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ trigger }) => {
             </div>
 
             {watchedStatus === "completed" && (
-              <div>
+              <div data-testid="create-book-rating">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
                 <Controller
                   name="rating"

@@ -18,6 +18,7 @@ type DataTableProps<T> = {
   onSave: (id: string) => void;
   onCancel: (id: string) => void;
   onDelete: (id: string) => void;
+  onView?: (id: string) => void;
   currentPage?: number;
   totalPages?: number;
   pageSize?: number;
@@ -41,6 +42,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
   onSave,
   onCancel,
   onDelete,
+  onView,
   currentPage,
   totalPages,
   pageSize,
@@ -110,6 +112,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
                   onSave={() => onSave(item.id)}
                   onCancel={() => onCancel(item.id)}
                   onDelete={() => onDelete(item.id)}
+                  onView={onView ? () => onView(item.id) : undefined}
                 />
               ))
             )}
@@ -132,6 +135,7 @@ const DataTable: React.FC<DataTableProps<{ id: string }>> = ({
                 onSave={() => onSave(item.id)}
                 onCancel={() => onCancel(item.id)}
                 onDelete={() => onDelete(item.id)}
+                onView={onView ? () => onView(item.id) : undefined}
               />
             ))}
           </div>

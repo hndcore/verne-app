@@ -1,7 +1,8 @@
 import React from "react";
-import { Edit, Trash2, Check, X } from "lucide-react";
+import { Edit, Trash2, Check, X, Eye } from "lucide-react";
 import type { DataTableColumnConfig } from "@/types/data-table";
 import Button from "@/lib/Button/Button";
+import { test } from "vitest";
 
 interface DataTableRowProps {
   item: any;
@@ -12,6 +13,7 @@ interface DataTableRowProps {
   onSave: () => void;
   onCancel: () => void;
   onDelete: () => void;
+  onView?: () => void;
 }
 
 export const DataTableRow: React.FC<DataTableRowProps> = ({
@@ -23,12 +25,13 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
   onSave,
   onCancel,
   onDelete,
+  onView,
 }) => {
   const isEditingCurrentItem = activeIdEditing === item.id;
   const isEditingOtherItem = activeIdEditing !== null && activeIdEditing !== item.id;
 
   const DesktopRow = () => (
-    <tr className="border-b border-[#e0dad1]">
+    <tr className="border-b border-[#e0dad1]" data-testid={`data-table-row-${item.id}`}>
       {columns.map(column => (
         <td
           key={column.key}
@@ -40,11 +43,12 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
         </td>
       ))}
 
-      <td className="p-4 align-middle text-right w-24">
-        <div className="flex gap-2 justify-end">
+      <td className="p-4 align-middle text-right w-28">
+        <div className="flex justify-end">
           {isEditingCurrentItem ? (
             <>
               <Button
+                testId="save-button"
                 variant="ghost"
                 className="hover:bg-green-100 text-green-800"
                 size="sm"
@@ -53,6 +57,7 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
                 <Check className="w-4 h-4" />
               </Button>
               <Button
+                testId="cancel-button"
                 variant="ghost"
                 className="hover:bg-gray-100 text-gray-800"
                 size="sm"
@@ -63,7 +68,20 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
             </>
           ) : (
             <>
+              {onView && (
+                <Button
+                  testId="view-button"
+                  variant="ghost"
+                  className="hover:bg-blue-100 text-blue-800"
+                  size="sm"
+                  onClick={onView}
+                  disabled={isEditingOtherItem}
+                >
+                  <Eye className="w-4 h-4" />
+                </Button>
+              )}
               <Button
+                testId="edit-button"
                 variant="ghost"
                 className="hover:bg-stone-300 text-stone-800"
                 size="sm"
@@ -73,6 +91,7 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
                 <Edit className="w-4 h-4" />
               </Button>
               <Button
+                testId="delete-button"
                 variant="ghost"
                 className="hover:bg-red-100 text-red-800"
                 size="sm"
@@ -111,6 +130,7 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
           {isEditingCurrentItem ? (
             <>
               <Button
+                testId="save-button"
                 variant="ghost"
                 className="hover:bg-green-100 text-green-800"
                 size="sm"
@@ -120,6 +140,7 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
                 <span className="ml-1">Save</span>
               </Button>
               <Button
+                testId="cancel-button"
                 variant="ghost"
                 className="hover:bg-gray-100 text-gray-800"
                 size="sm"
@@ -131,7 +152,21 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
             </>
           ) : (
             <>
+              {onView && (
+                <Button
+                  testId="view-button"
+                  variant="ghost"
+                  className="hover:bg-blue-100 text-blue-800"
+                  size="sm"
+                  onClick={onView}
+                  disabled={isEditingOtherItem}
+                >
+                  <Eye className="w-4 h-4" />
+                  <span className="ml-1">View</span>
+                </Button>
+              )}
               <Button
+                testId="edit-button"
                 variant="ghost"
                 className="hover:bg-stone-300 text-stone-800"
                 size="sm"
@@ -142,6 +177,7 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
                 <span className="ml-1">Edit</span>
               </Button>
               <Button
+                testId="delete-button"
                 variant="ghost"
                 className="hover:bg-red-100 text-red-800"
                 size="sm"

@@ -11,7 +11,13 @@ export default defineConfig({
     setupFiles: "./src/test/setup.ts",
     coverage: {
       include: ["src/**/*.{ts,tsx}"],
-      exclude: ["src/lib/**/*.stories.{ts,tsx}", "src/main.tsx", "src/App.tsx"],
+      exclude: [
+        "src/lib/**/*.stories.{ts,tsx}",
+        "src/main.tsx",
+        "src/App.tsx",
+        "src/**/**Schema.ts",
+        "src/**/query-client.ts",
+      ],
     },
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
