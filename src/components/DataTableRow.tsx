@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Edit, Trash2, Check, X, Eye } from "lucide-react";
 import type { DataTableColumnConfig } from "@/types/data-table";
 import Button from "@/lib/Button/Button";
@@ -16,7 +16,7 @@ interface DataTableRowProps {
   testId?: string;
 }
 
-export const DataTableRow: React.FC<DataTableRowProps> = ({
+const DataTableRow: React.FC<DataTableRowProps> = ({
   item,
   columns,
   headers,
@@ -214,3 +214,8 @@ export const DataTableRow: React.FC<DataTableRowProps> = ({
     </>
   );
 };
+
+const MemoizedDataTableRow = memo(DataTableRow);
+MemoizedDataTableRow.displayName = "DataTableRow";
+
+export default MemoizedDataTableRow;

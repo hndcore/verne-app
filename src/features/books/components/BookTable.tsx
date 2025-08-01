@@ -1,14 +1,17 @@
 import useBooks from "../hooks/api/useBooks";
-import React from "react";
+import React, { Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import DataTable from "@/components/DataTable";
+import DialogLoader from "@/components/DialogLoader";
 import useAuthors from "../hooks/api/useAuthors";
 import useGenres from "../hooks/api/useGenres";
 import { useBookForm, type BookFormFields } from "../hooks/useBookForm";
 import { createBookColumns } from "../config/bookTableColumns";
-import CreateBookForm from "./CreateBookForm";
-import DeleteBookDialog from "./DeleteBookDialog";
-import DetailedBookDialog from "./DetailedBookDialog";
+
+// Lazy load dialog components
+const CreateBookForm = React.lazy(() => import("./CreateBookForm"));
+const DeleteBookDialog = React.lazy(() => import("./DeleteBookDialog"));
+const DetailedBookDialog = React.lazy(() => import("./DetailedBookDialog"));
 import { useTableStore } from "../store/tableStore";
 import { useAuthorsMutation } from "../hooks/api/useAuthorsMutation";
 import { useGenresMutation } from "../hooks/api/useGenresMutation";
@@ -136,7 +139,9 @@ const BookTable: React.FC = () => {
         <h1 className="text-2xl font-bold text-stone-800" data-testid="book-table-title">
           Your Literary Collection
         </h1>
-        <CreateBookForm testId="book-table-create-form" />
+        <Suspense fallback={<DialogLoader message="Loading form..." />}>
+          <CreateBookForm testId="book-table-create-form" />
+        </Suspense>
       </header>
 
       <div className="p-6 pt-0 flex flex-col items-center gap-4" data-testid="book-table-content">
@@ -172,25 +177,29 @@ const BookTable: React.FC = () => {
         />
       </div>
 
-      <DeleteBookDialog
-        isOpen={deleteDialogOpen}
-        onClose={cancelDelete}
-        onConfirm={confirmDelete}
-        bookTitle={bookToDelete?.title}
-        isDeleting={isDeleting}
-        testId="book-table-delete-dialog"
-      />
+      <Suspense fallback={<DialogLoader message="Loading dialog..." />}>
+        <DeleteBookDialog
+          isOpen={deleteDialogOpen}
+          onClose={cancelDelete}
+          onConfirm={confirmDelete}
+          bookTitle={bookToDelete?.title}
+          isDeleting={isDeleting}
+          testId="book-table-delete-dialog"
+        />
+      </Suspense>
 
       {bookToView && (
-        <DetailedBookDialog
-          book={bookToView}
-          isOpen={viewDialogOpen}
-          onClose={() => {
-            setViewDialogOpen(false);
-            setBookToView(null);
-          }}
-          testId="book-table-detail-dialog"
-        />
+        <Suspense fallback={<DialogLoader message="Loading details..." />}>
+          <DetailedBookDialog
+            book={bookToView}
+            isOpen={viewDialogOpen}
+            onClose={() => {
+              setViewDialogOpen(false);
+              setBookToView(null);
+            }}
+            testId="book-table-detail-dialog"
+          />
+        </Suspense>
       )}
     </section>
   );

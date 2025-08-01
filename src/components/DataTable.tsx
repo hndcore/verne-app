@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 import { DataTableHeader } from "./DataTableHeader";
 import type { DataTableColumnConfig } from "@/types/data-table";
-import { DataTableRow } from "./DataTableRow";
+import DataTableRow from "./DataTableRow";
 import Pagination from "./Pagination";
 import type { SortConfig } from "./DataTableHeader";
 

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
-import { DataTableRow } from "../../components/DataTableRow";
+import DataTableRow from "../../components/DataTableRow";
 
 const mockItem = { id: "1", name: "Test Item", value: "Test Value" };
 
