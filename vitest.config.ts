@@ -22,4 +22,16 @@ export default defineConfig({
     },
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
+  server: {
+    watch: {
+      ignored: ["**/db.json"],
+    },
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

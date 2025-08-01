@@ -55,8 +55,10 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 className="hover:bg-green-100 text-green-800"
                 size="sm"
                 onClick={onSave}
+                aria-label={`Save changes for ${item.title || item.name || "item"}`}
               >
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Save</span>
               </Button>
               <Button
                 testId={`${testId}-cancel-button-${item.id}`}
@@ -64,8 +66,10 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 className="hover:bg-gray-100 text-gray-800"
                 size="sm"
                 onClick={onCancel}
+                aria-label={`Cancel editing ${item.title || item.name || "item"}`}
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Cancel</span>
               </Button>
             </>
           ) : (
@@ -78,8 +82,10 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                   size="sm"
                   onClick={onView}
                   disabled={isEditingOtherItem}
+                  aria-label={`View details for ${item.title || item.name || "item"}`}
                 >
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-4 h-4" aria-hidden="true" />
+                  <span className="sr-only">View</span>
                 </Button>
               )}
               <Button
@@ -89,8 +95,10 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 size="sm"
                 onClick={onEdit}
                 disabled={isEditingOtherItem}
+                aria-label={`Edit ${item.title || item.name || "item"}`}
               >
-                <Edit className="w-4 h-4" />
+                <Edit className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Edit</span>
               </Button>
               <Button
                 testId={`${testId}-delete-button-${item.id}`}
@@ -99,8 +107,10 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 size="sm"
                 onClick={onDelete}
                 disabled={isEditingOtherItem}
+                aria-label={`Delete ${item.title || item.name || "item"}`}
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Delete</span>
               </Button>
             </>
           )}
@@ -144,8 +154,9 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 className="hover:bg-green-100 text-green-800"
                 size="sm"
                 onClick={onSave}
+                aria-label={`Save changes for ${item.title || item.name || "item"}`}
               >
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4" aria-hidden="true" />
                 <span className="ml-1">Save</span>
               </Button>
               <Button
@@ -154,8 +165,9 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 className="hover:bg-gray-100 text-gray-800"
                 size="sm"
                 onClick={onCancel}
+                aria-label={`Cancel editing ${item.title || item.name || "item"}`}
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" aria-hidden="true" />
                 <span className="ml-1">Cancel</span>
               </Button>
             </>
@@ -169,8 +181,9 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                   size="sm"
                   onClick={onView}
                   disabled={isEditingOtherItem}
+                  aria-label={`View details for ${item.title || item.name || "item"}`}
                 >
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-4 h-4" aria-hidden="true" />
                   <span className="ml-1">View</span>
                 </Button>
               )}
@@ -181,8 +194,9 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 size="sm"
                 onClick={onEdit}
                 disabled={isEditingOtherItem}
+                aria-label={`Edit ${item.title || item.name || "item"}`}
               >
-                <Edit className="w-4 h-4" />
+                <Edit className="w-4 h-4" aria-hidden="true" />
                 <span className="ml-1">Edit</span>
               </Button>
               <Button
@@ -192,8 +206,9 @@ const DataTableRow: React.FC<DataTableRowProps> = ({
                 size="sm"
                 onClick={onDelete}
                 disabled={isEditingOtherItem}
+                aria-label={`Delete ${item.title || item.name || "item"}`}
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-4 h-4" aria-hidden="true" />
                 <span className="ml-1">Delete</span>
               </Button>
             </>

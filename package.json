@@ -15,6 +15,7 @@
     "test": "vitest --coverage",
     "cypress": "cypress open",
     "cypress:run": "cypress run",
+    "cypress:open": "concurrently \"cypress open\" \"npm start\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -23,6 +24,7 @@
     "@radix-ui/react-dialog": "^1.1.14",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-query": "^5.83.0",
+    "@testing-library/cypress": "^10.0.3",
     "concurrently": "^9.2.0",
     "json-server": "^0.17.4",
     "lucide-react": "^0.526.0",

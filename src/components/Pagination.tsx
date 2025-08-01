@@ -26,12 +26,17 @@ const Pagination: React.FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div
+    <nav
       className="flex items-center justify-between px-6 py-4 border-t border-[#e0dad1] bg-[#f7f6f2]"
       data-testid={`${testId}-container`}
+      aria-label="Pagination Navigation"
     >
       <div className="flex items-center gap-4" data-testid={`${testId}-info`}>
-        <span className="text-sm text-gray-700">
+        <span
+          className="text-sm text-gray-700"
+          aria-live="polite"
+          aria-label="Pagination information"
+        >
           {startItem}-{endItem} of {totalItems}
         </span>
       </div>
@@ -43,8 +48,10 @@ const Pagination: React.FC<PaginationProps> = ({
           size="sm"
           onClick={() => onPageChange(1)}
           disabled={currentPage === 1}
+          aria-label="Go to first page"
         >
-          <ChevronsLeft className="w-4 h-4" />
+          <ChevronsLeft className="w-4 h-4" aria-hidden="true" />
+          <span className="sr-only">First page</span>
         </Button>
         <Button
           testId={`${testId}-previous-button`}
@@ -52,8 +59,10 @@ const Pagination: React.FC<PaginationProps> = ({
           size="sm"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
+          aria-label="Go to previous page"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+          <span className="sr-only">Previous page</span>
         </Button>
 
         <div className="flex items-center gap-1" data-testid={`${testId}-pages`}>
@@ -63,6 +72,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 <span
                   className="px-3 py-1 text-sm text-gray-500"
                   data-testid={`${testId}-ellipsis-${index}`}
+                  aria-hidden="true"
                 >
                   ...
                 </span>
@@ -73,6 +83,8 @@ const Pagination: React.FC<PaginationProps> = ({
                   size="sm"
                   onClick={() => onPageChange(page as number)}
                   className="min-w-[32px]"
+                  aria-label={`Go to page ${page}`}
+                  aria-current={page === currentPage ? "page" : undefined}
                 >
                   {page}
                 </Button>
@@ -87,8 +99,10 @@ const Pagination: React.FC<PaginationProps> = ({
           size="sm"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
+          aria-label="Go to next page"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4" aria-hidden="true" />
+          <span className="sr-only">Next page</span>
         </Button>
         <Button
           testId={`${testId}-last-button`}
@@ -96,11 +110,13 @@ const Pagination: React.FC<PaginationProps> = ({
           size="sm"
           onClick={() => onPageChange(totalPages)}
           disabled={currentPage === totalPages}
+          aria-label="Go to last page"
         >
-          <ChevronsRight className="w-4 h-4" />
+          <ChevronsRight className="w-4 h-4" aria-hidden="true" />
+          <span className="sr-only">Last page</span>
         </Button>
       </div>
-    </div>
+    </nav>
   );
 };
 

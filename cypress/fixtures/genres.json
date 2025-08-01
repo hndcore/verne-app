@@ -1,0 +1,14 @@
+[
+  {
+    "id": "scifi",
+    "name": "Science Fiction"
+  },
+  {
+    "id": "fantasy",
+    "name": "Fantasy"
+  },
+  {
+    "id": "adventure",
+    "name": "Adventure"
+  }
+]
