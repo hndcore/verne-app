@@ -8,6 +8,7 @@ import { useBookForm, type BookFormFields } from "../hooks/useBookForm";
 import { createBookColumns } from "../config/bookTableColumns";
 import CreateBookForm from "./CreateBookForm";
 import DeleteBookDialog from "./DeleteBookDialog";
+import DetailedBookDialog from "./DetailedBookDialog";
 import { useTableStore } from "../store/tableStore";
 import { useAuthorsMutation } from "../hooks/api/useAuthorsMutation";
 import { useGenresMutation } from "../hooks/api/useGenresMutation";
@@ -15,10 +16,13 @@ import type { Control } from "react-hook-form";
 import { applyFilterToBooks, sortBooks } from "../utils/books";
 import InputText from "@/lib/InputText/InputText";
 import { useDebounce } from "use-debounce";
+import type { BookExtended } from "../types/book";
 
 const BookTable: React.FC = () => {
   const [authorSearch, setAuthorSearch] = React.useState<string>("");
   const [genresSearch, setGenresSearch] = React.useState<string>("");
+  const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
+  const [bookToView, setBookToView] = React.useState<BookExtended | null>(null);
   const { data: books, isLoading, isError } = useBooks();
   const { data: authors } = useAuthors(authorSearch || undefined);
   const { data: genres } = useGenres(genresSearch || undefined);
@@ -91,6 +95,14 @@ const BookTable: React.FC = () => {
     handleDelete(id, books);
   };
 
+  const handleView = (id: string) => {
+    const book = books?.find(b => b.id === id);
+    if (book) {
+      setBookToView(book);
+      setViewDialogOpen(true);
+    }
+  };
+
   const addAuthor = async (name: string) => {
     await createAuthor.mutateAsync({ name });
   };
@@ -112,19 +124,28 @@ const BookTable: React.FC = () => {
   });
 
   return (
-    <section className="border border-[#e0dad1] shadow-sm rounded-lg bg-[#f7f6f2]">
+    <section
+      className="border border-[#e0dad1] shadow-sm rounded-lg bg-[#f7f6f2]"
+      data-testid="book-table"
+    >
       <ToastContainer />
-      <header className="flex flex-col space-y-1.5 p-6 flex-row items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-800">Your Literary Collection</h1>
-        <CreateBookForm />
+      <header
+        className="flex flex-col space-y-1.5 p-6 flex-row items-center justify-between"
+        data-testid="book-table-header"
+      >
+        <h1 className="text-2xl font-bold text-stone-800" data-testid="book-table-title">
+          Your Literary Collection
+        </h1>
+        <CreateBookForm testId="book-table-create-form" />
       </header>
 
-      <div className="p-6 pt-0 flex flex-col items-center gap-4">
+      <div className="p-6 pt-0 flex flex-col items-center gap-4" data-testid="book-table-content">
         <InputText
           disabled={isLoading}
           value={searchTerm}
           onChange={setSearchTerm}
           placeholder="Search..."
+          testId="book-table-search"
         />
         <DataTable
           data={processedBooks}
@@ -138,6 +159,7 @@ const BookTable: React.FC = () => {
           onSave={handleSave}
           onCancel={handleCancel}
           onDelete={handleDeleteBook}
+          onView={handleView}
           currentPage={currentPage}
           totalPages={totalPages}
           pageSize={pageSize}
@@ -146,6 +168,7 @@ const BookTable: React.FC = () => {
           sortConfig={sortConfig}
           onSort={toggleSort}
           emptyMessage="No books in your collection yet. Add your first book to get started!"
+          testId="book-table-data"
         />
       </div>
 
@@ -155,7 +178,20 @@ const BookTable: React.FC = () => {
         onConfirm={confirmDelete}
         bookTitle={bookToDelete?.title}
         isDeleting={isDeleting}
+        testId="book-table-delete-dialog"
       />
+
+      {bookToView && (
+        <DetailedBookDialog
+          book={bookToView}
+          isOpen={viewDialogOpen}
+          onClose={() => {
+            setViewDialogOpen(false);
+            setBookToView(null);
+          }}
+          testId="book-table-detail-dialog"
+        />
+      )}
     </section>
   );
 };
