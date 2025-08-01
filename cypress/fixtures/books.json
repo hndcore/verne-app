@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "title": "Twenty Thousand Leagues Under the Sea",
+    "authorId": "1",
+    "genreId": "scifi",
+    "rating": 5,
+    "status": "completed",
+    "dateAdded": "2024-01-15T10:30:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "The Lord of the Rings",
+    "authorId": "2",
+    "genreId": "fantasy",
+    "rating": 5,
+    "status": "completed",
+    "dateAdded": "2024-01-20T14:45:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "A Game of Thrones",
+    "authorId": "3",
+    "genreId": "fantasy",
+    "rating": null,
+    "status": "reading",
+    "dateAdded": "2024-02-01T09:15:00.000Z"
+  }
+]
